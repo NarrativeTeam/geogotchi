@@ -12,6 +12,14 @@ def _latlon_params(latlon):
     return {"lat": latlon[0], "lng": latlon[1]}
 
 
+def _geoname_id(geoname):
+    try:
+        geoname_id = geoname["geonameId"]
+    except TypeError:
+        geoname_id = geoame
+    return int(geoname_id)
+
+
 def norm(V):
     L = math.sqrt(sum([x**2 for x in V]))
     if L == 0:
@@ -118,7 +126,7 @@ class Geogotchi(object):
     def _maybe_raise_geoname_error(self, parsed_response):
         """Raises an exception if the parsed response looks like an error.
 
-        geoname.org does not use HTTP status codes properly.
+        GeoName does not use HTTP status codes properly.
         """
         try:
             status = parsed_response["status"]
@@ -131,3 +139,16 @@ class Geogotchi(object):
         else:
             error_class = errors.from_code(error_code)
             raise error_class(message)
+
+    def get_hierarchy(self, geoname):
+        """Returns all GeoNames higher up in the hierarchy of a place name. 
+
+        :param geoname: A dict with a "geonameId" key or an integer.
+        """
+        params = self._base_params.copy()
+        params["geonameId"] = _geoname_id(geoname)
+
+        url = BASE_URL + "hierarchyJSON"
+        response = requests.get(url, params=params)
+        parsed_response = self._parse_response(response)
+        return parsed_response["geonames"]

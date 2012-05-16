@@ -65,3 +65,10 @@ class TestGeogotchi(unittest.TestCase):
         max_rows = 3
         nearby = gg.find_nearby_toponym(sthlm, radius=5, max_rows=max_rows)
         self.assertEqual(max_rows, len(nearby))
+
+    def test_get_hierarchy(self):
+        lkpg = latlons["lkpg"]
+        geoname = gg.find_nearby_place(lkpg)[0]
+        hierarchy = gg.get_hierarchy(geoname)
+        self.assertEqual(hierarchy[0]["name"], u"Earth")
+        self.assertEqual(hierarchy[-1]["name"], u"Link\xf6ping")
