@@ -1,6 +1,6 @@
 # Geogotchi
 
-Library for working with [GeoNames][geonames] services.
+Library for working with [GeoNames][geonames] services. [Documentation][docs].
 
 ## Usage
 
@@ -236,3 +236,4 @@ Get all GeoNames higher up in the hierarchy of a place name:
 ```
 
 [geonames]: http://www.geonames.org/
+[docs]: http://geogotchi.readthedocs.org/
