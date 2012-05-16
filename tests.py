@@ -7,6 +7,7 @@ from operator import itemgetter
 from geogotchi import Geogotchi
 from geogotchi import errors
 from geogotchi.constants import DEFAULT_USERNAME
+import geogotchi.base
 
 latlons = {
         "sthlm": (59.333, 18.065),
@@ -45,6 +46,15 @@ class TestGeogotchi(unittest.TestCase):
     def test_find_nearby_wikipedia_default(self):
         sthlm = latlons["sthlm"]
         nearby = gg.find_nearby_wikipedia(sthlm)
+
+    def test_validate_weight(self):
+        self.assertTrue(geogotchi.base._valid_weight(0.0))
+        self.assertTrue(geogotchi.base._valid_weight(1.0))
+        self.assertFalse(geogotchi.base._valid_weight(-0.1))
+        self.assertFalse(geogotchi.base._valid_weight(1.1))
+        self.assertFalse(geogotchi.base._valid_weight(0))
+        self.assertFalse(geogotchi.base._valid_weight(1))
+        self.assertFalse(geogotchi.base._valid_weight("foo"))
 
     def test_find_nearby_wikipedia_sort_distance(self):
         sthlm = latlons["sthlm"]

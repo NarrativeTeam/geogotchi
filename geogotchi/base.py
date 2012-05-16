@@ -21,6 +21,10 @@ def _geoname_id(geoname):
     return int(geoname_id)
 
 
+def _valid_weight(weight):
+    return isinstance(weight, float) and 0.0 <= weight <= 1.0
+
+
 def _convert(convert_func, geonames, keys):
     """Convert values in a list of geonames.
 
@@ -97,10 +101,17 @@ class Geogotchi(object):
         :param latlon: A latitude/longitude two-tuple.
         :param radius: Radius in km.
         :param max_rows: Max number of rows.
-        :param rank_weight: Weight of rank in sorting.
-        :param distance_weight: Weight of distance in sorting.
+        :param rank_weight: Weight of rank in sorting, between 0.0 and 1.0.
+        :param distance_weight: Weight of distance in sorting, between 0.0 
+                                and 1.0.
         :param lang: Language code.
         """
+        # Check that sorting weights are in range.
+        rank_weight = float(rank_weight)
+        distance_weight = float(distance_weight)
+        if not all(_valid_weight(w) for w in [rank_weight, distance_weight]):
+            raise errors.GeogotchiError("invalid sorting weight(s)")
+
         nearby = self._find_nearby("findNearbyWikipediaJSON", latlon, **kwargs)
         ranks = _norm([entry["rank"] for entry in nearby])
         dists = _norm([entry["distance"] for entry in nearby])
