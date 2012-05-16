@@ -6,17 +6,23 @@
 Welcome to Geogotchi's documentation!
 =====================================
 
-Contents:
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
 
    ref/api
 
+External Resources
+------------------
+
+* `GeoNames feature classes and codes 
+  <http://www.geonames.org/statistics/total.html>`_
 
 
-Indices and tables
-==================
+Indices and Tables
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
