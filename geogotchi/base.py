@@ -1,3 +1,4 @@
+import functools
 import math
 import json
 
@@ -18,6 +19,24 @@ def _geoname_id(geoname):
     except TypeError:
         geoname_id = geoname
     return int(geoname_id)
+
+
+def _convert(convert_func, geonames, keys):
+    """Convert values in a list of geonames.
+
+    :param convert_func: Function to run on key values.
+    :param geonames: Parsed list of geonames returned from the API.
+    :param keys: List of keys that should be converted, if they exist
+                 in a geoname.
+    :returns: The same list of geonames, with values converted.
+    """
+    for geoname in geonames:
+        for key in keys:
+            if key in geoname:
+                geoname[key] = convert_func(geoname[key])
+    return geonames
+
+_convert_float = functools.partial(_convert, float)
 
 
 def norm(V):
@@ -77,8 +96,6 @@ class Geogotchi(object):
         :param lang: Language code.
         """
         nearby = self._find_nearby("findNearbyWikipediaJSON", latlon, **kwargs)
-        for n in nearby:
-            n["distance"] = float(n["distance"])
         ranks = norm([entry["rank"] for entry in nearby])
         dists = norm([entry["distance"] for entry in nearby])
         indexed = list(enumerate(nearby))
@@ -111,7 +128,7 @@ class Geogotchi(object):
         url = BASE_URL + path
         response = requests.get(url, params=params)
         parsed_response = self._parse_response(response)
-        return parsed_response["geonames"]
+        return _convert_float(parsed_response["geonames"], ["distance"])
 
     def _parse_response(self, response):
         """Parse response. Returns a Python structure or raises an exception.

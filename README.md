@@ -17,7 +17,7 @@ Find nearby toponyms:
 ```python
 >>> pprint(gg.find_nearby_toponym(lkpg, radius=5, max_rows=3))
 [{u'countryCode': u'SE',
-  u'distance': u'0.02928',
+  u'distance': 0.02928,
   u'fcl': u'P',
   u'fcode': u'PPLA',
   u'geonameId': 2694762,
@@ -26,7 +26,7 @@ Find nearby toponyms:
   u'name': u'Link\xf6ping',
   u'toponymName': u'Link\xf6ping'},
  {u'countryCode': u'SE',
-  u'distance': u'0.0643',
+  u'distance': 0.0643,
   u'fcl': u'S',
   u'fcode': u'THTR',
   u'geonameId': 8199320,
@@ -35,7 +35,7 @@ Find nearby toponyms:
   u'name': u'Sagateatern',
   u'toponymName': u'Sagateatern'},
  {u'countryCode': u'SE',
-  u'distance': u'0.17547',
+  u'distance': 0.17547',
   u'fcl': u'S',
   u'fcode': u'CH',
   u'geonameId': 8128618,
