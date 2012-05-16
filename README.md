@@ -48,7 +48,8 @@ Find nearby toponyms:
 Find nearby Wikipedia articles, sorted by article rank and distance:
 
 ```python
->>> pprint(gg.find_nearby_wikipedia(lkpg, radius=5, max_rows=3))[{u'countryCode': u'SE',
+>>> pprint(gg.find_nearby_wikipedia(lkpg, radius=5, max_rows=3))
+[{u'countryCode': u'SE',
   u'distance': 0.0401,
   u'elevation': 58,
   u'feature': u'city',
