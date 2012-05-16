@@ -16,7 +16,7 @@ def _geoname_id(geoname):
     try:
         geoname_id = geoname["geonameId"]
     except TypeError:
-        geoname_id = geoame
+        geoname_id = geoname
     return int(geoname_id)
 
 
