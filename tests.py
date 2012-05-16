@@ -1,6 +1,8 @@
+# coding=utf-8
 import os
 import unittest
 import uuid
+from operator import itemgetter
 
 from geogotchi import Geogotchi
 from geogotchi import errors
@@ -82,3 +84,20 @@ class TestGeogotchi(unittest.TestCase):
     def test_get_hierarchy_bad(self):
         bad_geoname = 1234123412341234
         self.assertRaises(errors.OtherError, gg.get_hierarchy, bad_geoname)
+
+    def test_search_basic(self):
+        name = itemgetter("name")
+        def check_name(cmp_name, **kwargs):
+            self.assertEqual(cmp_name, 
+                             name(gg.search(max_rows=1, **kwargs)[0]))
+
+        check_name(u"Sweden", q="Sweden")
+        check_name(u"Sverige", q="Sweden", lang="sv")
+        check_name(u"Arlanda", name="Arlanda", feature_code="AIRP")
+
+    def test_search_hotel(self):
+        hotels = gg.search(q="sundsvall", feature_code="HTL")
+        names = [h["name"] for h in hotels]
+        should_exist = [u"Elite Hotel Knaust", u"First Hotel Strand"]
+        existing = [n for n in names if n in should_exist]
+        self.assertTrue(existing)

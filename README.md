@@ -5,7 +5,6 @@ Library for working with [GeoNames][geonames] services. [Documentation][docs].
 ## Usage
 
 ```python
->>> from pprint import pprint
 >>> from geogotchi import Geogotchi
 >>> 
 >>> lkpg = (58.411, 15.622)
@@ -15,7 +14,7 @@ Library for working with [GeoNames][geonames] services. [Documentation][docs].
 Find nearby toponyms:
 
 ```python
->>> pprint(gg.find_nearby_toponym(lkpg, radius=5, max_rows=3))
+>>> gg.find_nearby_toponym(lkpg, radius=5, max_rows=3)
 [{u'countryCode': u'SE',
   u'distance': 0.02928,
   u'fcl': u'P',
@@ -25,30 +24,13 @@ Find nearby toponyms:
   u'lng': 15.62157154083252,
   u'name': u'Link\xf6ping',
   u'toponymName': u'Link\xf6ping'},
- {u'countryCode': u'SE',
-  u'distance': 0.0643,
-  u'fcl': u'S',
-  u'fcode': u'THTR',
-  u'geonameId': 8199320,
-  u'lat': 58.41153384530707,
-  u'lng': 15.622424483299255,
-  u'name': u'Sagateatern',
-  u'toponymName': u'Sagateatern'},
- {u'countryCode': u'SE',
-  u'distance': 0.17547',
-  u'fcl': u'S',
-  u'fcode': u'CH',
-  u'geonameId': 8128618,
-  u'lat': 58.41139053707475,
-  u'lng': 15.624918937683105,
-  u'name': u'S:t Lars kyrka',
-  u'toponymName': u'S:t Lars kyrka'}]
+ ...]
 ```
 
 Find nearby Wikipedia articles, sorted by article rank and distance:
 
 ```python
->>> pprint(gg.find_nearby_wikipedia(lkpg, radius=5, max_rows=3))
+>>> gg.find_nearby_wikipedia(lkpg, radius=5, max_rows=3)
 [{u'countryCode': u'SE',
   u'distance': 0.0401,
   u'elevation': 58,
@@ -61,32 +43,14 @@ Find nearby Wikipedia articles, sorted by article rank and distance:
   u'thumbnailImg': u'http://www.geonames.org/img/wikipedia/90000/thumb-89377-100.jpg',
   u'title': u'Link\xf6ping',
   u'wikipediaUrl': u'en.wikipedia.org/wiki/Link%C3%B6ping'},
- {u'distance': 0.0194,
-  u'elevation': 57,
-  u'lang': u'en',
-  u'lat': 58.411,
-  u'lng': 15.622333333333334,
-  u'rank': 74,
-  u'summary': u'Downtown Link\xf6ping, the Inner City, is the district that includes the center of the city of Link\xf6ping. Located here is the commercial and cultural center of the city, with shops, restaurants, bars, shopping mall, museums, churches, libraries, sports facilities, and parks (...)',
-  u'title': u'Downtown Link\xf6ping',
-  u'wikipediaUrl': u'en.wikipedia.org/wiki/Downtown_Link%C3%B6ping'},
- {u'countryCode': u'SE',
-  u'distance': 0.3766,
-  u'elevation': 56,
-  u'lang': u'en',
-  u'lat': 58.408,
-  u'lng': 15.625,
-  u'rank': 97,
-  u'summary': u'Link\xf6ping Municipality (Link\xf6pings kommun) is a municipality in \xd6sterg\xf6tland County in southern Sweden. Its administrative center is the city of Link\xf6ping, with some 94,000 inhabitants. The municipality is bordered in the west by Motala, and thence clockwise by Finsp\xe5ng, Norrk\xf6ping, \xc5tvidaberg, (...)',
-  u'title': u'Link\xf6ping Municipality',
-  u'wikipediaUrl': u'en.wikipedia.org/wiki/Link%C3%B6ping_Municipality'}]
+ ...]
 ```
 
 Nearby Wikipedia articles, sorted only by article rank (number of links pointing
 to it):
 
 ```python
->>> pprint(gg.find_nearby_wikipedia(lkpg, radius=5, max_rows=3, rank_weight=1, distance_weight=0))
+>>> gg.find_nearby_wikipedia(lkpg, radius=5, max_rows=3, rank_weight=1, distance_weight=0)
 [{u'countryCode': u'SE',
   u'distance': 0.0401,
   u'elevation': 58,
@@ -99,32 +63,14 @@ to it):
   u'thumbnailImg': u'http://www.geonames.org/img/wikipedia/90000/thumb-89377-100.jpg',
   u'title': u'Link\xf6ping',
   u'wikipediaUrl': u'en.wikipedia.org/wiki/Link%C3%B6ping'},
- {u'countryCode': u'SE',
-  u'distance': 0.3766,
-  u'elevation': 56,
-  u'lang': u'en',
-  u'lat': 58.408,
-  u'lng': 15.625,
-  u'rank': 97,
-  u'summary': u'Link\xf6ping Municipality (Link\xf6pings kommun) is a municipality in \xd6sterg\xf6tland County in southern Sweden. Its administrative center is the city of Link\xf6ping, with some 94,000 inhabitants. The municipality is bordered in the west by Motala, and thence clockwise by Finsp\xe5ng, Norrk\xf6ping, \xc5tvidaberg, (...)',
-  u'title': u'Link\xf6ping Municipality',
-  u'wikipediaUrl': u'en.wikipedia.org/wiki/Link%C3%B6ping_Municipality'},
- {u'distance': 0.0194,
-  u'elevation': 57,
-  u'lang': u'en',
-  u'lat': 58.411,
-  u'lng': 15.622333333333334,
-  u'rank': 74,
-  u'summary': u'Downtown Link\xf6ping, the Inner City, is the district that includes the center of the city of Link\xf6ping. Located here is the commercial and cultural center of the city, with shops, restaurants, bars, shopping mall, museums, churches, libraries, sports facilities, and parks (...)',
-  u'title': u'Downtown Link\xf6ping',
-  u'wikipediaUrl': u'en.wikipedia.org/wiki/Downtown_Link%C3%B6ping'}]
+ ...]
 ```
 
 Get all GeoNames higher up in the hierarchy of a place name:
 
 ```python
 >>> nearby = gg.find_nearby_place(lkpg)
->>> pprint(gg.get_hierarchy(nearby[0]))
+>>> gg.get_hierarchy(nearby[0])
 [{u'adminName1': u'',
   u'countryName': u'',
   u'fcl': u'L',
@@ -137,102 +83,22 @@ Get all GeoNames higher up in the hierarchy of a place name:
   u'name': u'Earth',
   u'population': 6814400000,
   u'toponymName': u'Earth'},
- {u'adminName1': u'',
-  u'countryName': u'',
-  u'fcl': u'L',
-  u'fclName': u'parks,area, ...',
-  u'fcode': u'CONT',
-  u'fcodeName': u'continent',
-  u'geonameId': 6255148,
-  u'lat': 48.6909603909255,
-  u'lng': 9.140625,
-  u'name': u'Europe',
-  u'population': 0,
-  u'toponymName': u'Europe'},
- {u'adminCode1': u'00',
-  u'adminName1': u'',
-  u'countryCode': u'SE',
-  u'countryName': u'Sweden',
-  u'fcl': u'A',
-  u'fclName': u'country, state, region,...',
-  u'fcode': u'PCLI',
-  u'fcodeName': u'independent political entity',
-  u'geonameId': 2661886,
-  u'lat': 62,
-  u'lng': 15,
-  u'name': u'Sweden',
-  u'population': 9045000,
-  u'toponymName': u'Kingdom of Sweden'},
- {u'adminCode1': u'16',
-  u'adminName1': u'\xd6sterg\xf6tland',
-  u'countryCode': u'SE',
-  u'countryName': u'Sweden',
-  u'fcl': u'A',
-  u'fclName': u'country, state, region,...',
-  u'fcode': u'ADM1',
-  u'fcodeName': u'first-order administrative division',
-  u'geonameId': 2685867,
-  u'lat': 58.416667,
-  u'lng': 15.75,
-  u'name': u'\xd6sterg\xf6tland',
-  u'population': 429852,
-  u'toponymName': u'\xd6sterg\xf6tlands L\xe4n'},
- {u'adminCode1': u'16',
-  u'adminName1': u'\xd6sterg\xf6tland',
-  u'countryCode': u'SE',
-  u'countryName': u'Sweden',
-  u'fcl': u'A',
-  u'fclName': u'country, state, region,...',
-  u'fcode': u'ADM2',
-  u'fcodeName': u'second-order administrative division',
-  u'geonameId': 2694759,
-  u'lat': 58.41045761433381,
-  u'lng': 15.618696212768555,
-  u'name': u'Link\xf6pings Kommun',
-  u'population': 146736,
-  u'toponymName': u'Link\xf6pings Kommun'},
- {u'adminCode1': u'16',
-  u'adminName1': u'\xd6sterg\xf6tland',
-  u'countryCode': u'SE',
-  u'countryName': u'Sweden',
-  u'fcl': u'A',
-  u'fclName': u'country, state, region,...',
-  u'fcode': u'ADM3',
-  u'fcodeName': u'third-order administrative division',
-  u'geonameId': 8131853,
-  u'lat': 58.41139053707475,
-  u'lng': 15.624918937683105,
-  u'name': u'Link\xf6pings S:t Lars',
-  u'population': 11174,
-  u'toponymName': u'Link\xf6pings S:t Lars'},
- {u'adminCode1': u'16',
-  u'adminName1': u'\xd6sterg\xf6tland',
-  u'countryCode': u'SE',
-  u'countryName': u'Sweden',
-  u'fcl': u'A',
-  u'fclName': u'country, state, region,...',
-  u'fcode': u'ADM4',
-  u'fcodeName': u'fourth-order administrative division',
-  u'geonameId': 8126430,
-  u'lat': 58.39946808063989,
-  u'lng': 15.627324378149842,
-  u'name': u'Link\xf6ping socken',
-  u'population': 0,
-  u'toponymName': u'Link\xf6ping socken'},
- {u'adminCode1': u'16',
-  u'adminName1': u'\xd6sterg\xf6tland',
-  u'countryCode': u'SE',
-  u'countryName': u'Sweden',
-  u'fcl': u'P',
-  u'fclName': u'city, village,...',
-  u'fcode': u'PPLA',
-  u'fcodeName': u'seat of a first-order administrative division',
-  u'geonameId': 2694762,
-  u'lat': 58.4108622585562,
-  u'lng': 15.62157154083252,
-  u'name': u'Link\xf6ping',
-  u'population': 96732,
-  u'toponymName': u'Link\xf6ping'}]
+ ...]
+```
+
+Search for hotels in Sundsvall, Sweden:
+
+```python
+>>> gg.search(q="sundsvall", feature_code="HTL")
+[{u'countryCode': u'SE',
+  u'fcl': u'S',
+  u'fcode': u'HTL',
+  u'geonameId': 6495350,
+  u'lat': 62.414,
+  u'lng': 17.349,
+  u'name': u'Scandic Sundsvall North',
+  u'toponymName': u'Scandic Sundsvall North'},
+ ...]
 ```
 
 [geonames]: http://www.geonames.org/

@@ -18,7 +18,8 @@ External Resources
 ------------------
 
 * `GeoNames feature classes and codes 
-  <http://www.geonames.org/statistics/total.html>`_
+  <http://www.geonames.org/export/codes.html>`_ (`statistics
+  <http://www.geonames.org/statistics/total.html>`_)
 
 
 Indices and Tables

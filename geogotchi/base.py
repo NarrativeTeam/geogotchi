@@ -39,7 +39,13 @@ def _convert(convert_func, geonames, keys):
 _convert_float = functools.partial(_convert, float)
 
 
-def norm(V):
+def _make_utf8(s):
+    if isinstance(s, unicode):
+        return s.encode("utf-8")
+    return s
+
+
+def _norm(V):
     L = math.sqrt(sum([x**2 for x in V]))
     if L == 0:
         max_val = float(max(map(abs, V)))
@@ -65,7 +71,7 @@ class Geogotchi(object):
         :param latlon: A latitude/longitude two-tuple.
         :param radius: Radius in km.
         :param max_rows: Max number of rows.
-        :param style: Verbosity ("SHORT", "MEDIUM", "LONG" or "FULL").
+        :param style: Verbosity (SHORT, MEDIUM, LONG or FULL).
         """
         return self._find_nearby("findNearbyPlaceNameJSON", latlon, **kwargs)
 
@@ -77,7 +83,7 @@ class Geogotchi(object):
         :param latlon: A latitude/longitude two-tuple.
         :param radius: Radius in km.
         :param max_rows: Max number of rows.
-        :param style: Verbosity ("SHORT", "MEDIUM", "LONG" or "FULL").
+        :param style: Verbosity (SHORT, MEDIUM, LONG or FULL).
         """
         return self._find_nearby("findNearbyJSON", latlon, **kwargs)
 
@@ -96,8 +102,8 @@ class Geogotchi(object):
         :param lang: Language code.
         """
         nearby = self._find_nearby("findNearbyWikipediaJSON", latlon, **kwargs)
-        ranks = norm([entry["rank"] for entry in nearby])
-        dists = norm([entry["distance"] for entry in nearby])
+        ranks = _norm([entry["rank"] for entry in nearby])
+        dists = _norm([entry["distance"] for entry in nearby])
         indexed = list(enumerate(nearby))
         def score(x):
             rank_score = rank_weight * ranks[x[0]]
@@ -147,8 +153,8 @@ class Geogotchi(object):
         """
         try:
             status = parsed_response["status"]
-            message = status["message"]
             error_code = status["value"]
+            message = status.get("message", "no message")
         except TypeError:
             pass 
         except KeyError:
@@ -166,6 +172,58 @@ class Geogotchi(object):
         params["geonameId"] = _geoname_id(geoname)
 
         url = BASE_URL + "hierarchyJSON"
+        response = requests.get(url, params=params)
+        parsed_response = self._parse_response(response)
+        return parsed_response["geonames"]
+
+    def search(self, **kwargs):
+        """Perform a search.
+
+        One of `q`, `name` and `name_equals` must be given. Non-unicode string
+        arguments are assumed to be UTF-8 encoded.
+
+        :param q: Query over all attributes of a place.
+        :param name: Query place name only.
+        :param name_equals: Query exact place name.
+        :param max_rows: Max number of rows.
+        :param start_row: Used for paging results. If you want to get
+                          results 30 to 40, use ``start_row=30`` and
+                          ``max_rows=10``.
+        :param country: ISO-3166 country code. 
+        :param country_bias: Records from the country bias are listed first.
+        :param continent_code: Restricts the search for a toponym of the
+                               given continent (AF, AS, EU, NA, OC, SA, AN).
+        :param feature_class: `GeoNames feature class 
+                               <http://www.geonames.org/export/codes.html>`_
+        :param feature_code: `GeoNames feature code 
+                               <http://www.geonames.org/export/codes.html>`_
+        :param lang: ISO-636 2-letter language code (en, de, fr, se...)
+        :param style: Verbosity (SHORT, MEDIUM, LONG, FULL)
+        :param operator: AND (default) or OR.
+        :param fuzzy: Defines the fuzzyness of the search terms. Float between
+                      0.0 and 1.0 (default 1.0).
+        """
+        params = self._base_params.copy()
+        for kwarg_name, query_name, default, conv in [
+                ("q", "q", None, _make_utf8),
+                ("name", "name", None, _make_utf8),
+                ("name_equals", "name_equals", None, _make_utf8),
+                ("max_rows", "maxRows", None, int),
+                ("start_row", "startRow", None, int),
+                ("country", "country", None, _make_utf8),
+                ("country_bias", "countryBias", None, _make_utf8),
+                ("continent_code", "continentCode", None, _make_utf8),
+                ("feature_class", "featureClass", None, _make_utf8),
+                ("feature_code", "featureCode", None, _make_utf8),
+                ("lang", "lang", None, _make_utf8),
+                ("style", "style", "SHORT", _make_utf8),
+                ("operator", "operator", "AND", _make_utf8),
+                ("fuzzy", "fuzzy", 1.0, float),
+                ]:
+            kwarg_val = kwargs.get(kwarg_name, default)
+            if kwarg_val is not None:
+                params[query_name] = conv(kwarg_val)
+        url = BASE_URL + "searchJSON"
         response = requests.get(url, params=params)
         parsed_response = self._parse_response(response)
         return parsed_response["geonames"]
