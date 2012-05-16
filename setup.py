@@ -2,7 +2,7 @@
 from setuptools import setup
 
 setup(name="geogotchi",
-      version="0.1.0",
+      version="0.1.1",
       description="Library for working with geonames.org services",
       author="Simon Pantzare",
       author_email="simon+geogotchi@pewpewlabs.com",
