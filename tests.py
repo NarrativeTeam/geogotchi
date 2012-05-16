@@ -78,3 +78,7 @@ class TestGeogotchi(unittest.TestCase):
         hierarchy = gg.get_hierarchy(stlars)
         self.assertEqual(hierarchy[0]["name"], u"Earth")
         self.assertEqual(hierarchy[-1]["name"], u"S:t Lars kyrka")
+
+    def test_get_hierarchy_bad(self):
+        bad_geoname = 1234123412341234
+        self.assertRaises(errors.OtherError, gg.get_hierarchy, bad_geoname)
