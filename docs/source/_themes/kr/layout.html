@@ -14,3 +14,15 @@
       &copy; Copyright {{ copyright }}.
     </div>
 {%- endblock %}
+
+{% block sidebarlogo %}
+  {{ super() }}
+  <div style="margin-top:15px;margin-bottom:2px">
+  <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=Memoto&repo=geogotchi&type=watch&count=true" 
+      allowtransparency="true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+  </div>
+  <div style="margin-bottom:15px">
+  <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=pilt&type=follow&count=true" 
+      allowtransparency="true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+  </div>
+{% endblock %}
