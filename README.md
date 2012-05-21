@@ -1,5 +1,7 @@
 # Geogotchi
 
+![](https://github.com/Memoto/geogotchi/raw/master/gfx/tama.jpg)
+
 Library for working with [GeoNames][geonames] services. 
 
 ## Usage
