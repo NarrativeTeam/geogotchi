@@ -3,8 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Geogotchi's documentation!
-=====================================
+Geogotchi
+=========
+
+Python library for working with `GeoNames`_ services.
 
 Contents
 --------
@@ -12,6 +14,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   usage
    ref/api
 
 External Resources
@@ -29,3 +32,4 @@ Indices and Tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _GeoNames: http://geonames.org/
